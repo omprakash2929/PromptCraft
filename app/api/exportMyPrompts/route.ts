@@ -8,6 +8,7 @@ export const runtime = "nodejs"
 export async function GET(req: NextRequest) {
   const auth = req.headers.get("authorization") || ""
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : null
+  console.log(token)
   if (!token) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 })
   }

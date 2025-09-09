@@ -27,7 +27,7 @@ yarn-error.log*
 next-env.d.ts
 
 
-app/api/
+
 app/dashboard
 app/library
 components/providers

@@ -1,6 +1,5 @@
-// app/api/exportMyPrompts/route.ts
 import { type NextRequest, NextResponse } from "next/server"
-import { getServerAppwrite } from "@/lib/appwriteServer"
+import { getUserAppwrite } from "@/lib/appwriteServer"
 import { Query } from "node-appwrite"
 
 export const runtime = "nodejs"
@@ -8,19 +7,20 @@ export const runtime = "nodejs"
 export async function GET(req: NextRequest) {
   const auth = req.headers.get("authorization") || ""
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : null
-  console.log(token)
   if (!token) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 })
   }
 
-  const { client, databases, account } = getServerAppwrite()
-  client.setJWT(token)
-
-  let userId: string
+  let databases, account, userId: string
   try {
+    const userAppwrite = getUserAppwrite(token)
+    databases = userAppwrite.databases
+    account = userAppwrite.account
+
     const me = await account.get()
     userId = me.$id
-  } catch {
+  } catch (e: any) {
+    console.log("[v0] JWT validation failed:", e?.message)
     return NextResponse.json({ error: "invalid_jwt" }, { status: 401 })
   }
 
@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
     console.log("[v0] Fetching prompts for user:", userId)
     const res = await databases.listDocuments(databaseId, collectionId, [
       Query.equal("userId", userId),
-      Query.orderDesc("createdAt"),
+      Query.orderDesc("$createdAt"),
       Query.limit(500),
     ])
     console.log("[v0] Successfully fetched", res.documents.length, "prompts")

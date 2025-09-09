@@ -28,7 +28,7 @@ next-env.d.ts
 
 
 
-app/dashboard
+
 app/library
 components/providers
 hooks/

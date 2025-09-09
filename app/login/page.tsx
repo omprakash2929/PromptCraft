@@ -35,10 +35,10 @@ export default function LoginPage() {
   async function onRegister() {
     setLoading(true)
     try {
-      const account = getAccount()
-      await account.create(ID.unique(), email, password)
-      await account.createEmailPasswordSession(email, password)
-      router.push("/dashboard")
+      // const account = getAccount()
+      // await account.create(ID.unique(), email, password)
+      // await account.createEmailPasswordSession(email, password)
+      router.push("/signup")
     } catch (e: any) {
       toast({ title: "Sign up failed", description: e?.message || "Unknown error", variant: "destructive" })
     } finally {

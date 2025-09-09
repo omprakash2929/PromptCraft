@@ -142,8 +142,8 @@ export async function POST(req: NextRequest) {
       let rawText = ""
       let json: any = null
       try {
-        rawText = await resp.text()
-        json = JSON.parse(rawText)
+        rawText = await resp.text();
+        json = JSON.parse(rawText);
       } catch {}
       const message = json?.error?.message || json?.message || rawText || "Upstream Gemini API error."
 
@@ -158,7 +158,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const data = await resp.json()
+    const data = await resp.json();
     const text =
       data?.candidates?.[0]?.content?.parts
         ?.map((p: any) => p?.text)

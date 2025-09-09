@@ -25,14 +25,68 @@ export async function GET(req: NextRequest) {
 
   const databaseId = process.env.APPWRITE_DATABASE_ID!
   const collectionId = process.env.APPWRITE_COLLECTION_PROMPTS_ID!
+
+  console.log("[v0] Export - Environment check:", {
+    databaseId: databaseId || "MISSING",
+    collectionId: collectionId || "MISSING",
+    userId,
+  })
+
+  if (!databaseId || !collectionId) {
+    return NextResponse.json(
+      {
+        error: "server_misconfigured",
+        details: "Missing APPWRITE_DATABASE_ID or APPWRITE_COLLECTION_PROMPTS_ID environment variables",
+      },
+      { status: 500 },
+    )
+  }
+
   try {
+    console.log("[v0] Fetching prompts for user:", userId)
     const res = await databases.listDocuments(databaseId, collectionId, [
       Query.equal("userId", userId),
       Query.orderDesc("createdAt"),
       Query.limit(500),
     ])
+    console.log("[v0] Successfully fetched", res.documents.length, "prompts")
     return NextResponse.json({ items: res.documents })
   } catch (e: any) {
-    return NextResponse.json({ error: "db_error", details: e?.message || "unknown" }, { status: 500 })
+    console.log("[v0] Export failed:", {
+      error: e?.message,
+      code: e?.code,
+      type: e?.type,
+      databaseId,
+      collectionId,
+      userId,
+    })
+
+    let errorMessage = "db_error"
+    let errorDetails = e?.message || "unknown"
+
+    if (e?.code === 404) {
+      errorMessage = "collection_not_found"
+      errorDetails = "Database or collection does not exist"
+    } else if (e?.code === 401) {
+      errorMessage = "permission_denied"
+      errorDetails = "Insufficient permissions to read documents"
+    }
+
+    return NextResponse.json(
+      {
+        error: errorMessage,
+        details: errorDetails,
+        debug:
+          process.env.NODE_ENV === "development"
+            ? {
+                databaseId,
+                collectionId,
+                userId,
+                originalError: e?.message,
+              }
+            : undefined,
+      },
+      { status: 500 },
+    )
   }
 }

@@ -3,11 +3,17 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Moon, Sun, LogOut, User } from "lucide-react"
+import { useTheme } from "next-themes"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { getAccount } from "@/lib/appwriteClient"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const { user, loading } = useCurrentUser()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +22,24 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+
+  const handleLogout = async () => {
+    try {
+      const account = getAccount()
+      await account.deleteSession("current")
+      window.location.href = "/"
+    } catch (error) {
+      console.error("Logout failed:", error)
+    }
+  }
 
   return (
     <nav
@@ -51,20 +75,69 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login">
-              <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
-                Log in
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Get Started</Button>
-            </Link>
+            )}
+            {!loading && (
+              <>
+                {user ? (
+                  // Show user menu when logged in
+                  <>
+                    <Link href="/dashboard">
+                      <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                        <User className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="ghost"
+                      onClick={handleLogout}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  // Show login/signup when not logged in
+                  <>
+                    <Link href="/login">
+                      <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link href="/dashboard">
+                      <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Get Started</Button>
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
-          <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center space-x-2">
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="text-muted-foreground hover:text-foreground p-2"
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+            )}
+            <button className="p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -84,14 +157,35 @@ export function Navbar() {
                 Contact
               </Link>
               <div className="flex flex-col space-y-2 px-3 pt-4">
-                <Link href="/login">
-                  <Button variant="outline" className="w-full bg-transparent">
-                    Log in
-                  </Button>
-                </Link>
-                <Link href="/dashboard">
-                  <Button className="w-full bg-primary hover:bg-primary/90">Get Started</Button>
-                </Link>
+                {!loading && (
+                  <>
+                    {user ? (
+                      <>
+                        <Link href="/dashboard">
+                          <Button variant="outline" className="w-full bg-transparent">
+                            <User className="h-4 w-4 mr-2" />
+                            Dashboard
+                          </Button>
+                        </Link>
+                        <Button variant="outline" onClick={handleLogout} className="w-full bg-transparent">
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Link href="/login">
+                          <Button variant="outline" className="w-full bg-transparent">
+                            Log in
+                          </Button>
+                        </Link>
+                        <Link href="/dashboard">
+                          <Button className="w-full bg-primary hover:bg-primary/90">Get Started</Button>
+                        </Link>
+                      </>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

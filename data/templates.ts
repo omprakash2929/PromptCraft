@@ -5,6 +5,20 @@ export type Template = {
   preset: any
 }
 export const featuredTemplates: Template[] = [
+ {
+    id: "figurine-creation",
+    title: "3D Figurine Creation (Realistic)",
+    preset: {
+      useCase: "Image",
+      targetModel: "Gemini",
+      tone: ["realistic", "detailed"],
+      context: "Computer desk environment with 3D modeling setup",
+      outputFormat: "paragraphs",
+      // constraints: "1/7 scale, transparent acrylic base, no text on base",
+      roughIdea:
+        "Create a 1/7 scale commercialized figurine of the characters in the picture, in a realistic style, in a real environment.",
+    },
+  },
   {
     id: "blog-outline",
     title: "Blog outline (beginner, motivational)",

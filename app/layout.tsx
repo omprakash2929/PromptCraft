@@ -9,9 +9,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "PromptCraft",
+  description: "PromptCraft is a web app built for the **Appwrite Hackathon** that helps you generate professional AI prompts effortlessly. It transforms rough, simple ideas into precise, structured prompts compatible with any AI model (like Google Gemini, GPT, etc.).",
+  generator: "PromptCraft is a web app",
 }
 
 export default function RootLayout({

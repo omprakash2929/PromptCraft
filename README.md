@@ -1,86 +1,102 @@
-# PromptCraft
+# 🚀 PromptCraft – AI-Powered Prompt Engineering Assistant
 
-Generate better prompts, get better AI results.
+PromptCraft is a web app built for the **Appwrite Hackathon** that helps you generate professional AI prompts effortlessly. It transforms rough, simple ideas into precise, structured prompts compatible with any AI model (like Google Gemini, GPT, etc.).
 
-Tech: Next.js App Router, TypeScript, TailwindCSS, shadcn/ui, Appwrite (Auth + DB), React Query, Google Gemini (REST).
+## 🔗 Links
+- Repository: [To be filled with your GitHub repo link]
+ - Deployed Site: [To be filled with your Appwrite deployment link]
 
-## Routes
+## 🛠️ Tech Stack
 
-- `/` Landing
-- `/login` Auth (email/password + Google OAuth)
-- `/dashboard` Prompt Builder + Recent
-- `/library` Saved prompts with search/filters
-- `/settings` Profile, theme note, export
+- **Frontend:** Next.js, TailwindCSS, shadcn/ui  
+- **Backend & Authentication:** Appwrite  
+- **AI Integration:** Google Gemini AI  
+- **Routing:** Next.js App Router  
+- **Deployment:** Appwrite Hosting  
 
-## Environment
+### 📸 Screenshots
 
-Copy `.env.example` and set:
 
-- NEXT_PUBLIC_APPWRITE_ENDPOINT
-- NEXT_PUBLIC_APPWRITE_PROJECT_ID
-- NEXT_PUBLIC_APPWRITE_DATABASE_ID          ← used by client queries
-- NEXT_PUBLIC_APPWRITE_COLLECTION_PROMPTS_ID← used by client queries
-- APPWRITE_API_KEY
-- APPWRITE_DATABASE_ID
-- APPWRITE_COLLECTION_PROMPTS_ID
-- GEMINI_API_KEY
+## ✨ Features  
 
-Note: In this environment, `.env` is for configuration only; server-side variables are read at runtime.
+- 🎯 **Transform rough ideas into precise AI prompts**  
+    Most people struggle to explain their ideas in a way that AI can understand.  
+    With **PromptCraft**, you just type your *raw thought* and let the system          structure it into a professional prompt.  
+    This saves time, removes frustration, and ensures you get the **best possible AI output**.  
 
-## Appwrite Setup
 
-- Database: `promptcraft_db` (use its ID in APPWRITE_DATABASE_ID)
-- Collection: `prompts` (use its ID in APPWRITE_COLLECTION_PROMPTS_ID)
-- Attributes:
-  - `userId` string required
-  - `modelTarget` string required
-  - `useCase` string required
-  - `inputs` object/JSON required
-  - `refinedPrompt` string required
-  - `title` string required
-  - `createdAt` string required
-- Permissions: user read/write on own docs.
-- Auth: Email/password and Google OAuth enabled.
+- 🧠 **AI-powered with Google Gemini API**  
+    **Gemini** brings advanced reasoning and contextual understanding.  
+    By integrating it, PromptCraft ensures your prompts are not only well-written but also  **optimized for clarity, tone, and impact**.  
+    That means less trial-and-error and more **productive results on the first try**.  
 
-## API
 
-- `POST /api/generate` (Edge)
-  - Validates payload (zod)
-  - Rate limit: 20/min per IP (in-memory)
-  - Calls Gemini 1.5 Flash via REST
-  - Returns `{ refinedPrompt, tokensUsed, model }`
-- `POST /api/savePrompt` (Node)
-  - Auth via Appwrite JWT in `Authorization: Bearer <jwt>`
-  - Saves document with fields: `{ userId, modelTarget, useCase, inputs, refinedPrompt, title, createdAt }`
-- `GET /api/exportMyPrompts` (Node)
-  - Auth via JWT, returns all user prompts JSON
+- ⚡ **Built with Next.js App Router for speed & performance**  
+    No one likes slow tools.  
+    PromptCraft is designed to be **snappy and efficient**, so you can brainstorm,      refine, and test prompts instantly without waiting.  
+    This makes it perfect for **hackathons, work projects, or daily creative tasks**.  
 
-Test payload for `/api/generate`:
+- 🎨 **Styled with TailwindCSS & shadcn/ui**  
+    Good design matters.  
+    The **clean and minimal UI** makes the tool easy to use even for **non-technical users**.  
+    Instead of being overwhelmed by complexity, users enjoy a **smooth, intuitive experience**.  
 
-\`\`\`
-{
-  "targetModel": "ChatGPT",
-  "useCase": "Text",
-  "roughIdea": "Write a blog on beginner-friendly strength training tips",
-  "context": "Audience is 18-25, limited equipment, motivation needed",
-  "audience": "Gen Z beginners",
-  "tone": ["motivational", "friendly"],
-  "outputFormat": "outline",
-  "constraints": ["900-1200 words", "avoid jargon"],
-  "language": "English",
-  "negative": "No dangerous advice"
-}
-\`\`\`
 
-## UI/UX
+- 🔐 **Authentication & backend powered by Appwrite**  
+    Secure login, user data handling, and project management are all handled seamlessly with **Appwrite**.  
+    You can save your prompts, manage them safely, and access them from anywhere — **no messy setups required**.  
 
-- shadcn/ui components (Button, Input, Textarea, Select, Tabs, Card, Badge, Dialog, DropdownMenu, Sheet, Toaster)
-- Responsive, dark/light mode compatible
-- Rounded-2xl cards and soft shadows
-- Navbar with model switcher and user menu; collapsible sidebar on mobile
 
-## Notes
 
-- Keep secrets out of logs.
-- Inputs are sanitized and validated with zod.
-- Edge vs Node: Gemini route is Edge; Appwrite save/export are Node.
+- 📚 **Prompt Presets (YouTube scripts, blogs, sales emails, JSON specs & more)**  
+    Sometimes you don’t even know where to start.  
+    PromptCraft offers ready-made **prompt templates** for common use cases like YouTube videos, blog writing, technical specs, and emails.  
+    This makes it **super easy for beginners**, while still giving **power users flexibility** to customize.  
+
+## 🤝 Inspiration
+
+#### AI is powerful, but crafting the right prompts can be challenging. Many users struggle to convert raw ideas into clear instructions that AI models understand. PromptCraft bridges this gap by making prompt engineering easy, fast, and accessible for developers, creators, and businesses alike.
+
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/your-username/promptcraft.git
+cd promptcraft
+```
+### 2️⃣ Install dependencies
+```
+pnpm install
+```
+### 3️⃣ Setup environment variables
+- Create a .env.local file in the root directory and add your keys:
+```
+NEXT_PUBLIC_APPWRITE_ENDPOINT=your-appwrite-endpoint
+NEXT_PUBLIC_APPWRITE_PROJECT=your-appwrite-project-id
+GEMINI_API_KEY=your-gemini-api-key
+```
+### 4️⃣ Run the app locally
+```
+pnpm run dev
+```
+
+## 🔮 Future Plans
+- Add multi-model support (GPT, Claude, LLaMA)
+- Provide prompt optimization suggestions
+- Export prompts in multiple formats (Markdown, JSON, etc.)
+- Enable team collaboration features
+
+## 📜 License
+- This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+
+
+
+- **Made with ❤️ for the Appwrite Hackathon 2025**
+
+
+
+``` 
+If you want, I can also help you generate a polished project logo or banner for your GitHub repo to enhance its visual appeal. Just let me know!
+```

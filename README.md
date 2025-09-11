@@ -14,8 +14,25 @@ PromptCraft is a web app built for the **Appwrite Hackathon** that helps you gen
 - **Routing:** Next.js App Router  
 - **Deployment:** Appwrite Hosting  
 
+### 🎥 Demo Video
+
+
 ### 📸 Screenshots
 
+### 🔹 Landing Page  
+![Landing Page](./screenshots/page1.png)  
+
+### 🔹 Prompt Builder  
+![Prompt Builder](./screenshots/page2.png) 
+
+### 🔹 Prompt Library  
+![Prompt Builder](./screenshots/page3.png)  
+
+### 🔹 Result  
+![Prompt Builder](./screenshots/page4.png)  
+
+### 🔹 Settings  
+![Prompt Builder](./screenshots/page5.png)  
 
 ## ✨ Features  
 

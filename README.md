@@ -89,7 +89,7 @@ pnpm run dev
 - Enable team collaboration features
 
 ## 📜 License
-- This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+- This project is licensed under the [MIT License](./LICENSE).
 
 
 

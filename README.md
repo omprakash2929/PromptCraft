@@ -3,7 +3,6 @@
 PromptCraft is a web app built for the **Appwrite Hackathon** that helps you generate professional AI prompts effortlessly. It transforms rough, simple ideas into precise, structured prompts compatible with any AI model (like Google Gemini, GPT, etc.).
 
 ## 🔗 Links
-- Repository: [To be filled with your GitHub repo link]
  - Deployed Site: [To be filled with your Appwrite deployment link]
 
 ## 🛠️ Tech Stack
@@ -15,6 +14,10 @@ PromptCraft is a web app built for the **Appwrite Hackathon** that helps you gen
 - **Deployment:** Appwrite Hosting  
 
 ### 🎥 Demo Video
+
+
+
+https://github.com/user-attachments/assets/b9cfa9fe-d11b-44aa-a8cb-7db330b25da5
 
 
 ### 📸 Screenshots

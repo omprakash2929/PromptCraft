@@ -4,7 +4,9 @@ PromptCraft is a web app built for the **Appwrite Hackathon** that helps you gen
 
 ## 🔗 Links
  - Deployed Site: https://promptcraft.appwrite.network
-
+### Test account (It's only test use)
+ - Email: testuser@gmail.com
+ - password: testuser123
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js, TailwindCSS, shadcn/ui  
